@@ -19,32 +19,46 @@ namespace CM_Categorized_Bills
         [HarmonyPatch("FillTab", MethodType.Normal)]
         public static class ITab_Bills_FillTab
         {
-            [HarmonyTranspiler]
-            public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+            [HarmonyPostfix]
+            public static void Postfix()
             {
-                MethodInfo recipeOptionsMaker = AccessTools.Method(typeof(ITab_Bills_FillTab), nameof(ITab_Bills_FillTab.RecipeOptionsMakerMaker));
 
-                List<CodeInstruction> instructionList = instructions.ToList();
-
-                for (int i = 1; i < instructionList.Count - 1; ++i)
+                Rect areaRect = new Rect(160f, 10f, 29f, 29f);
+                Rect buttonRect = new Rect(0, 0f, 29f, 29f);
+                GUI.BeginGroup(areaRect);
+                if (Widgets.ButtonText(buttonRect, "C"))
                 {
-                    if (instructionList[i].opcode == OpCodes.Ldftn && (instructionList[i].operand as MethodInfo)?.ReturnType == typeof(List<FloatMenuOption>) && instructionList[i - 1].IsLdarg())
-                    {
-                        Log.Message("[CM_Categorized_Bills] - patching in categorized bill selection.");
-
-                        instructionList[i - 1] = new CodeInstruction(OpCodes.Nop);
-                        instructionList[i - 0] = new CodeInstruction(OpCodes.Nop);
-                        instructionList[i + 1] = new CodeInstruction(OpCodes.Call, recipeOptionsMaker);
-
-                        break;
-                    }
+                    Find.WindowStack.Add(new FloatMenu(RecipeOptionsMakerMaker()()));
                 }
-
-                foreach (CodeInstruction instruction in instructionList)
-                {
-                    yield return instruction;
-                }
+                GUI.EndGroup();
             }
+
+            //[HarmonyTranspiler]
+            //public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+            //{
+            //    MethodInfo recipeOptionsMaker = AccessTools.Method(typeof(ITab_Bills_FillTab), nameof(ITab_Bills_FillTab.RecipeOptionsMakerMaker));
+
+            //    List<CodeInstruction> instructionList = instructions.ToList();
+
+            //    for (int i = 1; i < instructionList.Count - 1; ++i)
+            //    {
+            //        if (instructionList[i].opcode == OpCodes.Ldftn && (instructionList[i].operand as MethodInfo)?.ReturnType == typeof(List<FloatMenuOption>) && instructionList[i - 1].IsLdarg())
+            //        {
+            //            Log.Message("[CM_Categorized_Bills] - patching in categorized bill selection.");
+
+            //            instructionList[i - 1] = new CodeInstruction(OpCodes.Nop);
+            //            instructionList[i - 0] = new CodeInstruction(OpCodes.Nop);
+            //            instructionList[i + 1] = new CodeInstruction(OpCodes.Call, recipeOptionsMaker);
+
+            //            break;
+            //        }
+            //    }
+
+            //    foreach (CodeInstruction instruction in instructionList)
+            //    {
+            //        yield return instruction;
+            //    }
+            //}
 
             public static Func<List<FloatMenuOption>> RecipeOptionsMakerMaker()
             {
