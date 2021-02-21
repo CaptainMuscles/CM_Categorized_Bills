@@ -6,6 +6,9 @@
 	  <li>Ludeon.RimWorld</li>
     <li>brrainz.harmony</li>
   </dependencies>
+  <loadBefore>
+    <li>Dubs Mint Menus</li>
+  </loadBefore>
   <loadAfter>
     <li>Ludeon.RimWorld</li>
     <li>brrainz.harmony</li>
