@@ -7,9 +7,9 @@
 	<supportedVersions>
 		<li>1.2</li>
 	</supportedVersions>
-	<description>Would you sit idly by and leave your friends to die? Now your enemies won't either (maybe).
+	<description>Are you having trouble finding that thing you want to craft amid a truly massive list of craftables? Well then what are you waiting for, install this damn mod already!
   
-No One Left Behind enables your enemies to rescue their fallen allies when fleeing a battle.</description>
+Categorized Crafting Bills adds a small button to each workbenches bill tab that presents the available bills in a series of submenus so you don't have to search the entire list for it.</description>
 	<modDependencies>
     <li>
 			<packageId>brrainz.harmony</packageId>
